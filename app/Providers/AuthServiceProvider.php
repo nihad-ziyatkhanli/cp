@@ -2,8 +2,9 @@
 
 namespace App\Providers;
 
-// use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
+use App\Custom\Services\MenuItemService;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +26,13 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        /* Registering all permissions. */
+        $permissions = config('cp.permissions');
+        foreach ($permissions as $p) {
+            Gate::define($p, function ($user) use ($p) {
+                // Loads roles into user on first call (Gate feature)
+                return $user->permissions()->contains($p);
+            });
+        }
     }
 }

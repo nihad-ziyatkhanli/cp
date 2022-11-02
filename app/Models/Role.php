@@ -3,18 +3,19 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Role extends Model
 {
-	use SoftDeletes;
-
     private $subordinates;
 
     protected $table = 'roles';
 
     protected $fillable = [
         'title', 'code', 'rank', 'status', 'permissions',
+    ];
+
+    protected $attributes = [
+        'permissions' => '[]',
     ];
 
     protected $casts = [
@@ -37,12 +38,12 @@ class Role extends Model
         return $this->subordinates;
     }
 
-    /* Me: Return this role's enabled subordinates + passed role. */
-    public function assignables(Role $role = null)
+    /* Me: Return this role's enabled subordinates + passed roles. */
+    public function assignables($roles = null)
     {
-        if (isset($role)) {
-            $f = function ($sr) use ($role) {
-                return $sr->status === 1 || $sr->id === $role->id;
+        if (isset($roles)) {
+            $f = function ($sr) use ($roles) {
+                return $sr->status === 1 || $roles->contains($sr);
             };
         } else {
             $f = function ($sr) {

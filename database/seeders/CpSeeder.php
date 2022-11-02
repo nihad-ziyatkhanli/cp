@@ -12,13 +12,31 @@ class CpSeeder extends Seeder
 	            'title' => 'Developer',
 	            'code' => 'dev',
 	            'rank' => '1',
-                'permissions' => json_encode(['access_cp', 'read_roles', 'read_users', 'create_roles']),
+                'permissions' => json_encode(array_keys(config('cp.permissions'))),
 	        ],
         	[
 	            'title' => 'Administrator',
 	            'code' => 'admin',
 	            'rank' => '2',
                 'permissions' => json_encode(['access_cp', 'read_roles', 'read_dashboard', 'update_roles', 'delete_roles']),
+	        ],
+        	[
+	            'title' => 'Editor',
+	            'code' => 'editor',
+	            'rank' => '3',
+                'permissions' => json_encode(['access_cp']),
+	        ],
+        	[
+	            'title' => 'Author',
+	            'code' => 'author',
+	            'rank' => '4',
+                'permissions' => json_encode(['access_cp']),
+	        ],
+        	[
+	            'title' => 'Contributor',
+	            'code' => 'contributor',
+	            'rank' => '4',
+                'permissions' => json_encode([]),
 	        ],
         ]);
 
@@ -48,6 +66,10 @@ class CpSeeder extends Seeder
             [
                 'role_id' => 2,
                 'user_id' => 1,
+            ],
+            [
+                'role_id' => 2,
+                'user_id' => 2,
             ],
         ]);
     }

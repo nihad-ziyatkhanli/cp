@@ -19,7 +19,7 @@
                             </x-nav-link>
                         @else
                             <x-nav-dropdown class="dropdown relative" :active="$mi['active']">
-                                <a class="dropdown-toggle leading-tight rounded transition duration-150 flex items-center whitespace-nowrap" href="#" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <a class="dropdown-toggle leading-tight rounded transition duration-150 flex items-center whitespace-nowrap h-full" href="#" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
                                     {{ $mi['title'] }}
                                     <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="caret-down" class="w-2 ml-2" role="img" viewBox="0 0 320 512" xmlns="http://www.w3.org/2000/svg">
                                         <path

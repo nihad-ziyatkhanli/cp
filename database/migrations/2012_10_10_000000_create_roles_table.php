@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Query\Expression;
 
 return new class extends Migration
 {
@@ -19,9 +20,8 @@ return new class extends Migration
             $table->string('code')->unique();
             $table->bigInteger('rank');
             $table->boolean('status')->default(1);
-            $table->json('permissions')->nullable();
+            $table->json('permissions')->default(new Expression('(JSON_ARRAY())'));
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

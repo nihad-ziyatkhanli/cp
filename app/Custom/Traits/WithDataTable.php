@@ -8,8 +8,8 @@ trait WithDataTable
 {
     use WithPagination;
 
-    public $sortBy = 'id';
-    public $sortDirection = 'desc';
+    public $sortBy;
+    public $sortDirection;
     public $rpp = 10;
 
     public function sortBy($column)
@@ -17,7 +17,7 @@ trait WithDataTable
         if ($this->sortBy == $column) {
             $this->sortDirection = $this->sortDirection == 'asc' ? 'desc' : 'asc';
         } else {
-            $this->reset('sortDirection');
+            $this->sortDirection = 'asc';
             $this->sortBy = $column;
         }
         $this->resetPage();

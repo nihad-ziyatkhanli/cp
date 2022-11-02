@@ -28,10 +28,10 @@ class AuthServiceProvider extends ServiceProvider
 
         /* Registering all permissions. */
         $permissions = config('cp.permissions');
-        foreach ($permissions as $p) {
-            Gate::define($p, function ($user) use ($p) {
+        foreach ($permissions as $code => $title) {
+            Gate::define($code, function ($user) use ($code) {
                 // Loads roles into user on first call (Gate feature)
-                return $user->permissions()->contains($p);
+                return $user->permissions()->contains($code);
             });
         }
     }

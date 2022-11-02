@@ -23,19 +23,19 @@ return [
     ],
 
     'permissions' => [
-        'access_cp',
+        'access_cp' => 'Access Control Panel',
 
-        'read_dashboard',
+        'read_dashboard' => 'Read Dashboard',
 
-        'create_roles',
-        'read_roles',
-        'update_roles',
-        'delete_roles',
+        'create_roles' => 'Create Roles',
+        'read_roles' => 'Read Roles',
+        'update_roles' => 'Update Roles',
+        'delete_roles' => 'Delete Roles',
 
-        'create_users',
-        'read_users',
-        'update_users',
-        'delete_users',
+        'create_users' => 'Create Users',
+        'read_users' => 'Read Users',
+        'update_users' => 'Update Users',
+        'delete_users' => 'Delete Users',
 
     ],
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Livewire\Role;
+namespace App\Http\Livewire\User;
 
 use Livewire\Component;
 use Illuminate\Support\Facades\DB;
-use App\Models\Role;
+use App\Models\User;
 use App\Custom\Traits\ConstructsPages;
 use App\Custom\Traits\WithDataTable;
 use App\Custom\Services\OperationLogService;
@@ -15,7 +15,7 @@ class Index extends Component
     use WithDataTable;
 
     public $searchColumns = [
-        'title' => '',
+        'name' => '',
     ];
 
     public function booted()
@@ -25,14 +25,14 @@ class Index extends Component
 
     public function delete($id)
     {
-        $role = Role::findOrFail($id);
+        $user = User::withCount(User::restrictedBy())->findOrFail($id);
 
-        $this->authorize('delete', $role);
+        $this->authorize('delete', $user);
 
-        DB::transaction(function() use ($role) {
-            $role->delete();
+        DB::transaction(function() use ($user) {
+            $user->delete();
 
-            app()->make(OperationLogService::class)->create($role, 2);
+            app()->make(OperationLogService::class)->create($user, 2);
         });
 
         return redirect()->to(route($this->mi_code))->with('success', __('The record has been deleted.'));
@@ -40,11 +40,11 @@ class Index extends Component
 
     public function render()
     {
-        $query = Role::query();
+        $query = User::with('roles')->withCount(User::restrictedBy());
 
         foreach ($this->searchColumns as $column => $value) {
             if (!empty($value)) {
-                if ($column == 'title') {
+                if ($column == 'name') {
                     $query->where($column, 'LIKE', '%' . $value . '%');
                 }
             }
@@ -53,7 +53,7 @@ class Index extends Component
         $query->orderBy($this->sortBy ?? 'id', $this->sortDirection ?? 'desc');
 
         return view($this->view, [
-            'roles' => $query->paginate($this->rpp)
+            'users' => $query->paginate($this->rpp)
         ])->layoutData($this->only([
             'menu_data',
         ]));

@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 Use App\Custom\Services\UserService;
+use App\Models\User;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -14,6 +15,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton(User::class, function ($app) {
+            return auth()->user();
+        });
         $this->app->singleton(UserService::class, function ($app) {
             return new UserService(auth()->user());
         });

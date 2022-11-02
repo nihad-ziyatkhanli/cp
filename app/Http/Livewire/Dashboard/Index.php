@@ -21,7 +21,6 @@ class Index extends Component
         return view($this->view, [
 
         ])->layoutData($this->only([
-            'mi_title',
             'menu_data',
         ]));
     }

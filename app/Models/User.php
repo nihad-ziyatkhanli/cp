@@ -9,12 +9,10 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Laravel\Sanctum\HasApiTokens;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
-    use SoftDeletes;
 
     private $permissions;
 
@@ -48,16 +46,38 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    /* Me: Password mutator */
+    /* Password mutator */
     public function setPasswordAttribute($value)
     {
         $this->attributes['password'] = Hash::make($value);
     }
 
-    /* Me: Defining relationships. */
+    /* Defining relationships. */
     public function roles()
     {
         return $this->belongsToMany(Role::class)->withTimestamps();
+    }
+
+    public function logs()
+    {
+        return $this->hasMany(OperationLog::class, 'user_id');
+    }
+
+    /* Make sure there are no related records exists before deleting parent model instance. */
+    public static function restrictedBy()
+    {
+        return ['logs'];
+    }
+
+    public function canBeDeleted()
+    {
+        foreach (static::restrictedBy() as $relation) {
+            if ($this->{$relation.'_count'} > 0) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function highestRole()

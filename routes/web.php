@@ -29,13 +29,12 @@ Route::prefix('cp')->middleware(['auth'])->group(function () {
 
     Route::get('/dashboard', L\Dashboard\Index::class);
 
-
-    Route::get('roles', L\Role\Index::class);
+    Route::get('roles', L\Role\Index::class)->name('roles');
     Route::get('roles/create', L\Role\Create::class)->name('roles.create');
 	Route::get('roles/{id}/update', L\Role\Update::class)->name('roles.update');
-	//Route::get('roles/{id}/delete', L\Role\Delete::class)->name('roles.delete');
 
-
-
+    Route::get('users', L\User\Index::class)->name('users');
+    Route::get('users/create', L\User\Create::class)->name('users.create');
+	Route::get('users/{id}/update', L\User\Update::class)->name('users.update');
 
 });

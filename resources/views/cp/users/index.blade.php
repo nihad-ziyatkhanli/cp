@@ -5,7 +5,7 @@
             <div class="max-w-7xl mx-auto py-1 px-4 sm:px-6 lg:px-8">
                 <nav class="px-5 py-1 rounded-md w-full">
                     <ol class="list-reset flex">
-                        <li><span class="text-gray-800">{{ __($mi_title) }}</span></li>
+                        <li><span class="text-gray-800">{{ $mi_title }}</span></li>
                     </ol>
                 </nav>
             </div>
@@ -47,7 +47,7 @@
                 </div>
                 <div>
                     <button type="button" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">{{ __('Advanced Search') }}</button>
-                    @can('create_roles')
+                    @can('create_users')
                         <a href="{{ route($mi_code.'.create') }}" class="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">{{ __('Create') }}</a>
                     @endcan
                 </div>
@@ -57,25 +57,17 @@
                 <table class="table min-w-full">
                     <thead>
                         <tr>
-                            <th wire:click="sortBy('title')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
-                                {{ __('Title') }}
-                                @if ($sortBy == 'title')
+                            <th wire:click="sortBy('name')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
+                                {{ __('Name') }}
+                                @if ($sortBy == 'name')
                                     <i class="fa fa-fw fa-sort-{{ $sortDirection }}"></i>
                                 @else
                                     <i class="fa fa-fw fa-sort" style="color:#DCDCDC"></i>
                                 @endif
                             </th>
-                            <th wire:click="sortBy('code')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
-                                {{ __('Code') }}
-                                @if ($sortBy == 'code')
-                                    <i class="fa fa-fw fa-sort-{{ $sortDirection }}"></i>
-                                @else
-                                    <i class="fa fa-fw fa-sort" style="color:#DCDCDC"></i>
-                                @endif
-                            </th>
-                            <th wire:click="sortBy('rank')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
-                                {{ __('Rank') }}
-                                @if ($sortBy == 'rank')
+                            <th wire:click="sortBy('email')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
+                                {{ __('Email') }}
+                                @if ($sortBy == 'email')
                                     <i class="fa fa-fw fa-sort-{{ $sortDirection }}"></i>
                                 @else
                                     <i class="fa fa-fw fa-sort" style="color:#DCDCDC"></i>
@@ -89,9 +81,9 @@
                                     <i class="fa fa-fw fa-sort" style="color:#DCDCDC"></i>
                                 @endif
                             </th>
-                            <th wire:click="sortBy('updated_at')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
-                                {{ __('Date') }}
-                                @if ($sortBy == 'updated_at')
+                            <th wire:click="sortBy('created_at')" class="px-6 py-3 border-b-2 border-gray-300 text-left text-sm leading-4 tracking-wider">
+                                {{ __('Created at') }}
+                                @if ($sortBy == 'created_at')
                                     <i class="fa fa-fw fa-sort-{{ $sortDirection }}"></i>
                                 @else
                                     <i class="fa fa-fw fa-sort" style="color:#DCDCDC"></i>
@@ -102,10 +94,9 @@
                         </tr>
                         <tr>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">
-                                <input wire:model.debounce.500ms="searchColumns.title" type="text" placeholder="{{ __('Search...') }}"
+                                <input wire:model.debounce.500ms="searchColumns.name" type="text" placeholder="{{ __('Search...') }}"
                                     class="mt-2 text-sm sm:text-base pl-2 pr-4 rounded-lg border border-gray-400 w-full py-1 focus:outline-none focus:border-blue-400" />
                             </td>
-                            <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5"></td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5"></td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5"></td>
                             <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5"></td>
@@ -113,15 +104,14 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($roles as $role)
+                        @foreach($users as $user)
                             <tr class="hover:bg-gray-100">
-                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $role->title }}</td>
-                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $role->code }}</td>
-                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $role->rank }}</td>
-                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $role->status }}</td>
-                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $role->updated_at?->format('Y-m-d') ?? __('n/a') }}</td>
+                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $user->name }}</td>
+                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $user->email }}</td>
+                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $user->status }}</td>
+                                <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">{{ $user->created_at?->format('Y-m-d') ?? __('n/a') }}</td>
                                 <td class="px-6 py-2 whitespace-no-wrap border-b border-gray-400 text-sm leading-5">
-                                    @canany(['update', 'delete'], $role)
+                                    @canany(['update', 'delete'], $user)
                                         <div class="flex justify-center">
                                             <div>
                                                 <div class="dropdown relative">
@@ -133,16 +123,16 @@
                                                         </svg>
                                                     </button>
                                                     <ul class="dropdown-menu min-w-full absolute hidden bg-white text-base z-50 float-left overflow-hidden list-none text-left rounded shadow-lg mt-1 hidden m-0 bg-clip-padding border-none">
-                                                        @can('update', $role)
+                                                        @can('update', $user)
                                                             <li>
                                                                 <a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                                                                href="{{ route($mi_code.'.update', ['id' => $role->id]) }}" type="button">{{ __('Update') }}</a>
+                                                                href="{{ route($mi_code.'.update', ['id' => $user->id]) }}" type="button">{{ __('Update') }}</a>
                                                             </li>
                                                         @endcan
-                                                        @can('delete', $role)
+                                                        @can('delete', $user)
                                                             <li>
                                                                 <a class="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                                                                x-on:click="openModalAsDelete({{ $role->id }})" href="#" type="button">{{ __('Delete') }}</a>
+                                                                x-on:click="openModalAsDelete({{ $user->id }})" href="#" type="button">{{ __('Delete') }}</a>
                                                             </li>
                                                         @endcan
                                                     </ul>
@@ -157,7 +147,7 @@
                 </table>
             </div>
 
-            {{ $roles->links() }}
+            {{ $users->links() }}
 
         </div>
     </x-alpine.confirm-deletion>

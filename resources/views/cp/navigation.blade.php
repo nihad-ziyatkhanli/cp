@@ -28,7 +28,7 @@
                                         ></path>
                                     </svg>
                                 </a>
-                                <ul class="dropdown-menu min-w-full absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 hidden m-0 bg-clip-padding border-none"
+                                <ul class="dropdown-menu min-w-full absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
                                         aria-labelledby="dropdownMenuButton2">
                                     @foreach ($mi['children'] as $child)
                                         <li>

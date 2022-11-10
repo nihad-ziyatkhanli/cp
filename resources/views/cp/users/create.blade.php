@@ -11,7 +11,7 @@
         </div>
     </header>
 
-    <x-tailwind.loading wire:loading />
+    <x-tailwind.loading wire:loading wire:target="save" />
 
     <div class="py-2 max-w-7xl mx-auto sm:px-1 lg:px-2">
 
@@ -48,15 +48,10 @@
                     </div>
 
                     <div class="form-group mb-6 col-span-6">
-                        <label for="role_ids" class="form-label inline-block mb-2 text-gray-700">{{ __('Roles') }}</label>
-                        <select wire:model.defer="role_ids" id="role_ids" multiple class="form-multi-select appearance-none block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding bg-no-repeat border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none">
-                            <option disabled>{{ __('Select') }}</option>
-                            @foreach ($assignables as $role)
-                                <option value="{{ $role->id }}">{{ __($role->title) }}</option>
-                            @endforeach
-                        </select>
-                        @error('role_ids') <span class="block mt-1 text-xs text-red-600">{{ $message }}</span> @enderror
-                        @error('role_ids.*') <span class="block mt-1 text-xs text-red-600">{{ $message }}</span> @enderror
+                        <label for="roleIds" class="form-label inline-block mb-2 text-gray-700">{{ __('Roles') }}</label>
+                        @livewire('widgets.select-multiple', ['config' => $roleIdsConf])
+                        @error('roleIds') <span class="block mt-1 text-xs text-red-600">{{ $message }}</span> @enderror
+                        @error('roleIds.*') <span class="block mt-1 text-xs text-red-600">{{ $message }}</span> @enderror
                     </div>
 
                     <hr class="mb-6 h-0 border border-solid border-t-0 border-gray-700 opacity-25 col-span-12">

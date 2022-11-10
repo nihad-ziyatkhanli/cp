@@ -73,7 +73,7 @@ class Update extends Component
             app()->make(OperationLogService::class)->create($this->role, 1);
         });
 
-        return redirect()->to(route('roles'))->with('success', __('The record has been updated.'));
+        return redirect()->route('roles')->with('success', __('The record has been updated.'));
     }
 
     public function render()

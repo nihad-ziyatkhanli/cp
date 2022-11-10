@@ -8,7 +8,7 @@ use App\Custom\Services\MenuItemService;
 trait ConstructsPages
 {
     use AuthorizesRequests;
-    // use ConvertsEmptyStringsToNull;
+    use TrimsStrings;
 
     public $mi_title;
     public $mi_code;

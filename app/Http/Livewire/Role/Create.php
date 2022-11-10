@@ -69,7 +69,7 @@ class Create extends Component
             app()->make(OperationLogService::class)->create($this->role, 0);
         });
 
-        return redirect()->to(route('roles'))->with('success', __('A new record has been added.'));
+        return redirect()->route('roles')->with('success', __('A new record has been added.'));
     }
 
     public function render()

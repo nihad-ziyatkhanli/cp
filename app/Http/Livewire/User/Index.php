@@ -35,7 +35,7 @@ class Index extends Component
             app()->make(OperationLogService::class)->create($user, 2);
         });
 
-        return redirect()->to(route($this->mi_code))->with('success', __('The record has been deleted.'));
+        return redirect()->route($this->mi_code)->with('success', __('The record has been deleted.'));
     }
 
     public function render()

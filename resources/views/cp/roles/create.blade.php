@@ -11,7 +11,7 @@
         </div>
     </header>
 
-    <x-tailwind.loading wire:loading />
+    <x-tailwind.loading wire:loading wire:target="save" />
 
     <div class="py-2 max-w-7xl mx-auto sm:px-1 lg:px-2">
 

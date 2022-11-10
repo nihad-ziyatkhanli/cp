@@ -6,39 +6,47 @@ use Livewire\Component;
 use Illuminate\Support\Facades\DB;
 use App\Models\User;
 use App\Custom\Traits\ConstructsPages;
+use App\Custom\Traits\ListensToEvents;
 use App\Custom\Services\OperationLogService;
 // use Illuminate\Support\Facades\Validator;
 
 class Update extends Component
 {
     use ConstructsPages;
+    use ListensToEvents; // To react to select box value update.
 
     public User $user;
     public $password;
-    public $role_ids;
+    public $roleIds; // multi select value
+    public $roleIdsConf; // multi select config
     public $assignables;
 
-    protected $role_ids_original;
     protected $rules;
+    protected $listeners = ['selected']; // To react to select box value update.
 
     public function mount()
     {
         $this->user = User::with('roles')->findOrFail(request()->route('id'));
+        $this->roleIds = $this->user->roles->pluck('id')->toArray();
+        $this->assignables = auth()->user()->highestRole()->assignables($this->user->roles);
+        $this->roleIdsConf = [
+            'name' => 'roleIds',
+            'text' => 'title',
+            'values_init' => $this->roleIds,
+            'models' => $this->assignables,
+        ];
     }
 
     public function booted()
     {
         $this->authorize('update', $this->user);
 
-        $this->assignables = auth()->user()->highestRole()->assignables($this->user->roles);
-        $this->role_ids = $this->role_ids_original = $this->user->roles->pluck('id')->toArray();
-
         $this->rules = [
             'user.name' => 'bail|required|string|max:25|unique:users,name,'.$this->user->id,
             'user.email' => 'bail|required|string|max:25|email|unique:users,email,'.$this->user->id,
             'password' => 'bail|nullable|string|min:8',
-            'role_ids' => 'bail|array',
-            'role_ids.*' => [
+            'roleIds' => 'bail|array',
+            'roleIds.*' => [
                 'bail',
                 'integer',
                 function ($attribute, $value, $fail) {
@@ -55,6 +63,16 @@ class Update extends Component
     public function updated($name, $value)
     {
         $this->validateOnly($name);
+
+        // Example to load multi select with new options from db. For no options, use 'models' => []
+
+        //    $this->emit('roleIds', [
+        //        'name' => 'roleIds',
+        //        'text' => 'title',
+        //        'callback' => [\App\Models\Role::class, 'orderBy'],
+        //        'params' => ['title', 'asc'],
+        //    ]);
+
     }
     */
 
@@ -62,23 +80,24 @@ class Update extends Component
     {
         $this->validate();
 
-        sort($this->role_ids);
-        sort($this->role_ids_original);
+        $roleIdsOriginal = $this->user->roles->pluck('id')->toArray();
+        sort($this->roleIds);
+        sort($roleIdsOriginal);
 
-        if ($this->user->isClean() && empty($this->password) && $this->role_ids == $this->role_ids_original) {
+        if ($this->user->isClean() && empty($this->password) && $this->roleIds == $roleIdsOriginal) {
             return;
         }
 
         DB::transaction(function() {
             $this->user->password = $this->password;
             $this->user->save();
-            $this->user->roles()->sync($this->role_ids);
+            $this->user->roles()->sync($this->roleIds);
             $this->user->load('roles');
 
             app()->make(OperationLogService::class)->create($this->user, 1);
         });
 
-        return redirect()->to(route('users'))->with('success', __('The record has been updated.'));
+        return redirect()->route('users')->with('success', __('The record has been updated.'));
     }
 
     public function render()

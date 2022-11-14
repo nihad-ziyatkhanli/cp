@@ -21,12 +21,12 @@ class UserPolicy
 
     public function update(User $user, User $target)
     {
-        return $user->can('update_roles') && $target->roles->isEmpty() || $user->highestRole()?->subordinates()?->contains($target->highestRole());
+        return $user->can('update_users') && ($target->roles->isEmpty() || $user->highestRole()?->subordinates()?->contains($target->highestRole()));
     }
 
     public function delete(User $user, User $target)
     {
         return $target->canBeDeleted()
-            && $user->can('delete_roles') && ($target->roles->isEmpty() || $user->highestRole()?->subordinates()?->contains($target->highestRole()));
+            && $user->can('delete_users') && ($target->roles->isEmpty() || $user->highestRole()?->subordinates()?->contains($target->highestRole()));
     }
 }

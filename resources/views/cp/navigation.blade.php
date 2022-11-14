@@ -32,7 +32,7 @@
                                         aria-labelledby="dropdownMenuButton2">
                                     @foreach ($mi['children'] as $child)
                                         <li>
-                                            <a  class="{{ $child['active'] ? 'bg-gray-200 cursor-default' : 'hover:bg-gray-100' }} dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
+                                            <a  class="{{ $child['active'] ? 'text-gray-400 cursor-default' : 'hover:bg-gray-100' }} dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700"
                                             href="{{ $child['active'] ? '#' : $child['url'] }}">{{ $child['title'] }}</a>
                                         </li>
                                     @endforeach

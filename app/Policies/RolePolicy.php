@@ -22,11 +22,11 @@ class RolePolicy
 
     public function update(User $user, Role $role)
     {
-        return $user->can('update_roles') && $user->highestRole()?->subordinates()?->contains($role);
+        return $user->can('update_roles') && $user->highestRole()?->subordinates()->contains($role);
     }
 
     public function delete(User $user, Role $role)
     {
-       return $user->can('delete_roles') && $user->highestRole()?->subordinates()?->contains($role);
+       return $user->can('delete_roles') && $user->highestRole()?->subordinates()->contains($role);
     }
 }

@@ -97,7 +97,7 @@ class Update extends Component
             app()->make(OperationLogService::class)->create($this->user, 1);
         });
 
-        return redirect()->route('users')->with('success', __('The record has been updated.'));
+        return redirect()->route($this->mi_code)->with('success', __('The record has been updated.'));
     }
 
     public function render()

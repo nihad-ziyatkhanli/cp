@@ -52,7 +52,7 @@
                             <a data-mdb-ripple="true" data-mdb-ripple-color="light" href="{{ route($mi_code) }}" class="inline-block px-6 py-2.5 bg-gray-200 text-gray-700 font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-300 hover:shadow-lg focus:bg-gray-300 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-gray-400 active:shadow-lg transition duration-150 ease-in-out">
                                 {{ __('Cancel') }}
                             </a>
-                            <button type="submit" data-mdb-ripple="true" data-mdb-ripple-color="light"
+                            <button data-mdb-ripple="true" data-mdb-ripple-color="light" type="submit"
                             class="inline-block px-6 py-2.5 bg-green-500 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-green-600 hover:shadow-lg focus:bg-green-600 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-green-700 active:shadow-lg transition duration-150 ease-in-out">
                                 {{ __('Save') }}
                             </button>
@@ -62,7 +62,6 @@
                         <div class="form-group mb-3">
                             <span class="form-label inline-block text-gray-700">{{ __('Permissions') }}</span>
                         </div>
-                        @error('role.permissions.*') <span class="block mt-1 text-xs text-red-600">{{ $message }}</span> @enderror
                         <div class="form-group form-check mb-3 mx-1">
                             <input wire:model.debounce.400ms="checkAll" value="{{ $checkAll }}" type="checkbox" id="checkAll"
                             class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain mr-2 cursor-pointer">

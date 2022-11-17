@@ -78,7 +78,7 @@ class Create extends Component
             app()->make(OperationLogService::class)->create($this->user, 0);
         });
 
-        return redirect()->route('users')->with('success', __('A new record has been added.'));
+        return redirect()->route($this->mi_code)->with('success', __('A new record has been added.'));
     }
 
     public function render()

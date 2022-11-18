@@ -30,9 +30,8 @@ class Index extends Component
         $this->authorize('delete', $role);
 
         DB::transaction(function() use ($role) {
-            $role->delete();
-
             app()->make(OperationLogService::class)->create($role, 2);
+            $role->delete();
         });
 
         return redirect()->route($this->mi_code)->with('success', __('The record has been deleted.'));
